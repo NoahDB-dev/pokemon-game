@@ -1,3 +1,4 @@
 # pokemon-game
 
-A simple Pokemon sample built in javascript. Should play on any browser
+A work in progress - first time really using JavaScript so probably
+will take a while. 
