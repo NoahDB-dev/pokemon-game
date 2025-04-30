@@ -10,8 +10,16 @@ canvas.height = 700;
 const collisionsMap = [];
 
 //Getting the values from the collissions array (Stored in collisions.js) and adding them to the collisions map array
-for(let i = 0; i < collisions.length; i += 60) {
+for (let i = 0; i < collisions.length; i += 60) {
     collisionsMap.push(collisions.slice(i, i + 60));
+}
+
+//Creating the array that will store the battle areas data
+const battleAreasMap = [];
+
+//Getting the values from the battleareas array (Stored in battleareas.js) and adding htem to the battleAreasMap array
+for (let i = 0; i < battleareas.length; i += 60) {
+    battleAreasMap.push(battleareas.slice(i, i + 60));
 }
 
 //Creating the offset needed to center the background in the correct position.
@@ -27,6 +35,16 @@ collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
         if (symbol === 29764)
             boundaries.push(new Boundary({ position: {x: j * Boundary.width + offset.x, y: i * Boundary.height + offset.y}, symbol}));
+    })
+})
+
+//Creating the array that will store the battle area objects based off the information in the battleAreasMap array
+const battles = [];
+
+battleAreasMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        if (symbol === 29764)
+            battles.push(new BattleArea({ position: {x: j * BattleArea.width + offset.x, y: i * BattleArea.height + offset.y}, symbol}));
     })
 })
 
@@ -81,7 +99,7 @@ const keys = {
 }
 
 //Creating an array that will store all the objects that move
-const movables = [background, ...boundaries, foreground];
+const movables = [background, ...boundaries, ...battles, foreground];
 
 //Creating a function that checks if two rectangles with x and y values are colliding. (This really only works for the player since it is using arbitrary values for the calculation)
 function rectangularCollision({rectangle1, rectangle2}) {
@@ -100,9 +118,16 @@ function animate() {
 
     //Drawing the objects on the screen in the order that they should be drawn (background -> player -> foreground)
     background.draw();
+
+    //Drawing the boundaries and battle areas before continuing the drawing of the other areas
     boundaries.forEach(boundary => {
         boundary.draw();
     });
+    battles.forEach(battleArea => {
+        battleArea.draw();
+    })
+
+    //Drawing the player and foreground
     player.draw();
     foreground.draw();
    
@@ -120,7 +145,15 @@ function animate() {
             const boundary = boundaries[i];
             if (rectangularCollision({rectangle1: player, rectangle2: {...boundary, position: {x: boundary.position.x, y: boundary.position.y + 2}}})) {
                 moving = false;
-                console.log("colliding");
+                break;
+            }
+        }
+
+        //Checking the collisions of the player and the battle areas
+        for (let i = 0; i < battles.length; i++) {
+            const battle = battles[i];
+            if (rectangularCollision({rectangle1: player, rectangle2: {...battle, position: {x: battle.position.x, y: battle.position.y + 2}}})) {
+                console.log("In battle area");
                 break;
             }
         }
@@ -145,7 +178,15 @@ function animate() {
             const boundary = boundaries[i];
             if (rectangularCollision({rectangle1: player, rectangle2: {...boundary, position: {x: boundary.position.x + 2, y: boundary.position.y}}})) {
                 moving = false;
-                console.log("colliding");
+                break;
+            }
+        }
+
+        //Checking the collisions of the player and the battle areas
+        for (let i = 0; i < battles.length; i++) {
+            const battle = battles[i];
+            if (rectangularCollision({rectangle1: player, rectangle2: {...battle, position: {x: battle.position.x, y: battle.position.y + 2}}})) {
+                console.log("In battle area");
                 break;
             }
         }
@@ -170,7 +211,15 @@ function animate() {
             const boundary = boundaries[i];
             if (rectangularCollision({rectangle1: player, rectangle2: {...boundary, position: {x: boundary.position.x, y: boundary.position.y - 2}}})) {
                 moving = false;
-                console.log("colliding");
+                break;
+            }
+        }
+
+        //Checking the collisions of the player and the battle areas
+        for (let i = 0; i < battles.length; i++) {
+            const battle = battles[i];
+            if (rectangularCollision({rectangle1: player, rectangle2: {...battle, position: {x: battle.position.x, y: battle.position.y + 2}}})) {
+                console.log("In battle area");
                 break;
             }
         }
@@ -195,7 +244,15 @@ function animate() {
             const boundary = boundaries[i];
             if (rectangularCollision({rectangle1: player, rectangle2: {...boundary, position: {x: boundary.position.x - 2, y: boundary.position.y}}})) {
                 moving = false;
-                console.log("colliding");
+                break;
+            }
+        }
+
+        //Checking the collisions of the player and the battle areas
+        for (let i = 0; i < battles.length; i++) {
+            const battle = battles[i];
+            if (rectangularCollision({rectangle1: player, rectangle2: {...battle, position: {x: battle.position.x, y: battle.position.y + 2}}})) {
+                console.log("In battle area");
                 break;
             }
         }

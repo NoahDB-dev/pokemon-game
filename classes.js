@@ -1,3 +1,25 @@
+//Creating the BattleArea class
+class BattleArea {
+    
+    //Setting the values for width and height. Since these will never change they are static
+    static width = 32;
+    static height = 32;
+
+    //Creating the constructor for the boundary class
+    constructor({position}) {
+        this.position = position;
+        this.width = 32
+        this.height = 32;
+    }
+
+    //Setting the draw function. This is technically uneccesary, however, it makes it easier to trouble shoot.
+    draw() {
+        ctx.fillStyle = 'rgba(255,0,0,0.5)';
+        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    }
+}
+
+
 //Creating the boundary class
 class Boundary {
 
@@ -14,7 +36,7 @@ class Boundary {
 
     //Setting the draw function. This is technically uneccesary, however, it makes it easier to trouble shoot.
     draw() {
-        ctx.fillStyle = 'rgb(255, 0, 0)';
+        ctx.fillStyle = 'rgba(255, 0, 0, 0)';
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 }
