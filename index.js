@@ -50,15 +50,15 @@ battleAreasMap.forEach((row, i) => {
 
 //Creating the background image (AKA the town background)
 const image = new Image();
-image.src = './images/map/starterTown.png';
+image.src = 'starterTown.png';
 
 //Creating the player image (AKA the character)
 const playerImage = new Image();
-playerImage.src = './images/character/characterSprites.png';
+playerImage.src = 'characterSprites.png';
 
 //Creating the foreground image (AKA the things that should always be rendered on top)
 const foregroundImage = new Image();
-foregroundImage.src = './images/map/Foreground.png';
+foregroundImage.src = 'Foreground.png';
 
 //Creating the player object that will store information about the player (The class is Sprite)
 const player = new Sprite({
